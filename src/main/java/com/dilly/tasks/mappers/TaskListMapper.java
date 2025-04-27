@@ -4,9 +4,9 @@ import com.dilly.tasks.domain.dto.TaskListDto;
 import com.dilly.tasks.domain.entities.Task;
 import com.dilly.tasks.domain.entities.TaskList;
 import com.dilly.tasks.domain.entities.TaskStatus;
-import jdk.jfr.Name;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public interface TaskListMapper {
     @Mapping(source = "tasks", target = "tasks")
     TaskListDto toDto(TaskList taskList);
 
-    @Name("calculateTaskListCount")
+    @Named("calculateTaskListCount")
     default long calculateTaskListCount(List<Task> tasks){
         if(tasks == null){
             return 0;
@@ -29,7 +29,7 @@ public interface TaskListMapper {
         return tasks.size();
     }
 
-    @Name("calculateTaskListProgress")
+    @Named("calculateTaskListProgress")
     default double calculateTaskListProgress(List<Task> tasks){
         if(tasks == null || tasks.isEmpty()){
             return 0.0;
