@@ -71,5 +71,15 @@ public class Task {
                 createdAt, updatedAt, taskList);
     }
 
+    @PrePersist
+    protected void onCreate() {
+        LocalDateTime now = LocalDateTime.now();
+        this.createdAt = now;
+        this.updatedAt = now;
+    }
 
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }

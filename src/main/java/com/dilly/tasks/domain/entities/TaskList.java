@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -41,7 +42,7 @@ public class TaskList {
             fetch = FetchType.LAZY,
             mappedBy = "taskList",
             cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
-    private List<Task> tasks;
+    private List<Task> tasks = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {
@@ -58,5 +59,17 @@ public class TaskList {
     @Override
     public int hashCode() {
         return Objects.hash(id, title, description, createdAt, updatedAt, tasks);
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        LocalDateTime now = LocalDateTime.now();
+        this.createdAt = now;
+        this.updatedAt = now;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
     }
 }
