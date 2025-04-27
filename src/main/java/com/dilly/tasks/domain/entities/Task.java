@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @Data
@@ -42,5 +43,33 @@ public class Task {
 
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "task_list_id")
+    private TaskList taskList;
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return Objects.equals(id, task.id)
+                && Objects.equals(title, task.title)
+                && Objects.equals(description, task.description)
+                && Objects.equals(dueDate, task.dueDate)
+                && priority == task.priority
+                && status == task.status
+                && Objects.equals(createdAt, task.createdAt)
+                && Objects.equals(updatedAt, task.updatedAt)
+                && Objects.equals(taskList, task.taskList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                id, title, description,
+                dueDate, priority, status,
+                createdAt, updatedAt, taskList);
+    }
+
 
 }
