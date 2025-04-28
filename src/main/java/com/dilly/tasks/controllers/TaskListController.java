@@ -31,7 +31,7 @@ public class TaskListController {
         return ResponseEntity.ok(taskListDtos);
     }
 
-    /* POST create new category */
+    /* POST create new task list */
     @PostMapping
     public ResponseEntity<TaskListDto> createTaskList(@RequestBody TaskListDto taskListDto){
 
@@ -44,6 +44,7 @@ public class TaskListController {
         );
     }
 
+    /* GET an existing task list */
     @GetMapping(path = "/{task_list_id}")
     public ResponseEntity<TaskListDto> getTaskList(@PathVariable("task_list_id") UUID id){
 
@@ -53,6 +54,7 @@ public class TaskListController {
         return ResponseEntity.ok(taskListDto);
     }
 
+    /* PUT update an existing task list */
     @PutMapping(path = "/{task_list_id}")
     public ResponseEntity<TaskListDto> updatedTaskList(
             @PathVariable("task_list_id") UUID id,
@@ -63,5 +65,13 @@ public class TaskListController {
         TaskListDto updatedTaskListDto = taskListMapper.toDto(updatedTaskList);
 
         return ResponseEntity.ok(updatedTaskListDto);
+    }
+
+    /* DELETE a task list */
+    @DeleteMapping(path="/{task_list_id}")
+    public ResponseEntity<Void> deleteTaskList(@PathVariable("task_list_id") UUID id){
+
+        taskListService.deleteTaskList(id);
+        return ResponseEntity.noContent().build();
     }
 }
