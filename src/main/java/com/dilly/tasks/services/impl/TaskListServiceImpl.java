@@ -6,10 +6,12 @@ import com.dilly.tasks.services.TaskListService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +28,7 @@ public class TaskListServiceImpl implements TaskListService {
 
     /* POST create new task list */
     @Override
+    @Transactional
     public TaskList createTaskList(TaskList taskList) {
 
         // check if the task already exists
@@ -41,5 +44,13 @@ public class TaskListServiceImpl implements TaskListService {
         return newTaskList;
     }
 
+    /* GET a task list by its ID */
+    @Override
+    public TaskList getTaskList(UUID listId) {
+        Optional<TaskList> taskList = taskListRepository.findById(listId);
+        return taskList.orElseThrow(
+                () -> new EntityNotFoundException("Task list with id: " + listId + " does not exist.")
+        );
+    }
 
 }

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/task-list")
@@ -43,4 +44,12 @@ public class TaskListController {
         );
     }
 
+    @GetMapping(path = "/{task_list_id}")
+    public ResponseEntity<TaskListDto> getTaskList(@PathVariable("task_list_id") UUID id){
+
+        TaskList taskList = taskListService.getTaskList(id);
+        TaskListDto taskListDto = taskListMapper.toDto(taskList);
+
+        return ResponseEntity.ok(taskListDto);
+    }
 }
