@@ -5,10 +5,9 @@ import com.dilly.tasks.domain.entities.TaskList;
 import com.dilly.tasks.mappers.TaskListMapper;
 import com.dilly.tasks.services.TaskListService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,4 +29,18 @@ public class TaskListController {
 
         return ResponseEntity.ok(taskListDtos);
     }
+
+    /* POST create new category */
+    @PostMapping
+    public ResponseEntity<TaskListDto> createTaskList(@RequestBody TaskListDto taskListDto){
+
+        TaskList taskList = taskListMapper.toEntity(taskListDto);
+        TaskList createdTaskList = taskListService.createTaskList(taskList);
+
+        return new ResponseEntity<>(
+                taskListMapper.toDto(createdTaskList),
+                HttpStatus.CREATED
+        );
+    }
+
 }
