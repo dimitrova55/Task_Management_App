@@ -52,4 +52,16 @@ public class TaskListController {
 
         return ResponseEntity.ok(taskListDto);
     }
+
+    @PutMapping(path = "/{task_list_id}")
+    public ResponseEntity<TaskListDto> updatedTaskList(
+            @PathVariable("task_list_id") UUID id,
+            @RequestBody TaskListDto taskListDto)
+    {
+        TaskList taskList = taskListMapper.toEntity(taskListDto);
+        TaskList updatedTaskList = taskListService.updateTaskList(id, taskList);
+        TaskListDto updatedTaskListDto = taskListMapper.toDto(updatedTaskList);
+
+        return ResponseEntity.ok(updatedTaskListDto);
+    }
 }
