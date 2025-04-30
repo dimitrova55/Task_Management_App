@@ -56,6 +56,7 @@ public class TaskListServiceImpl implements TaskListService {
     @Override
     @Transactional
     public TaskList updateTaskList(UUID listId, TaskList taskList) {
+        /*
         if(taskList.getId() == null){
             throw new IllegalArgumentException("Task list must have an ID.");
         }
@@ -64,6 +65,8 @@ public class TaskListServiceImpl implements TaskListService {
         if(! listId.equals(taskList.getId())){
             throw new IllegalArgumentException("Changing task list ID is not permitted.");
         }
+
+         */
 
         TaskList existingTaskList = taskListRepository.findById(listId)
                 .orElseThrow(() -> new IllegalStateException("Task list not found."));

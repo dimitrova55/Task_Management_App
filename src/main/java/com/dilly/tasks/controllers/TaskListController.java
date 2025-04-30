@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(path = "/task-list")
+@RequestMapping(path = "/task-lists")
 @RequiredArgsConstructor
 public class TaskListController {
 

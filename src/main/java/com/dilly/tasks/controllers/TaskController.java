@@ -34,7 +34,8 @@ public class TaskController {
     /* POST create new task */
     @PostMapping
     public ResponseEntity<TaskDto> createTask(
-            @PathVariable("task_list_id") UUID id, TaskDto taskDto)
+            @PathVariable("task_list_id") UUID id,
+            @RequestBody TaskDto taskDto)
     {
         Task task = taskMapper.toEntity(taskDto);
         Task createdTask = taskService.createTask(id, task);
@@ -42,4 +43,41 @@ public class TaskController {
 
         return new ResponseEntity<>(createdTaskDto,HttpStatus.CREATED);
     }
+
+    /* GET a task by its id and list id  */
+    @GetMapping("/{id}")
+    public ResponseEntity<TaskDto> getTask(
+            @PathVariable("task_list_id") UUID taskListId,
+            @PathVariable UUID id)
+    {
+        Task task = taskService.getTask(taskListId, id);
+        return ResponseEntity.ok(taskMapper.toDto(task));
+
+    }
+
+    /* PUT update existing task */
+    @PutMapping("/{id}")
+    public ResponseEntity<TaskDto> updateTask(
+            @PathVariable("task_list_id") UUID taskListId,
+            @PathVariable UUID id,
+            @RequestBody TaskDto taskDto)
+    {
+        Task updatedTask = taskService.updateTask(
+                taskListId,
+                id,
+                taskMapper.toEntity(taskDto));
+
+        return ResponseEntity.ok(taskMapper.toDto(updatedTask));
+    }
+    /* DELETE task */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTask(
+            @PathVariable("task_list_id") UUID taskListId,
+            @PathVariable UUID id
+    )
+    {
+        taskService.deleteTask(taskListId, id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
